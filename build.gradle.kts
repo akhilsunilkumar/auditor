@@ -193,7 +193,6 @@ subprojects {
                             url.set("https://github.com/lowes/auditor/issues")
                         }
                     }
-
                 }
             }
             repositories {
@@ -240,7 +239,6 @@ subprojects {
         gradle.startParameter.excludedTaskNames += setOf("integrationTest", "functionalTest")
     }
 }
-
 
 fun getAuditorVersion(): String {
     val version = System.getenv().getOrDefault("AUDITOR_VERSION", "0.0.1")
