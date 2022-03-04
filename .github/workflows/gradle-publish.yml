@@ -31,7 +31,8 @@ jobs:
       name: Decode and save GPG Secret File from secrets
       env:
         ENCODED_SECRET_GPG_KEY: ${{ secrets.ENCODED_SECRET_GPG_KEY }}
-      run: echo "$ENCODED_SECRET_GPG_KEY" | base64 --decode > secrets-keys.gpg
+        SAMPLE_ENV: value
+      run: env
 
     - id: print-dir
       name: print the directory to check whether secrets-keys.gpg is generated
