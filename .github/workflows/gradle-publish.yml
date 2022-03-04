@@ -33,8 +33,8 @@ jobs:
         echo $SECRETS_GPG_KEY | base64 -d > secrets-keys.gpg 
       env:
         SECRETS_GPG_KEY: ${{ secrets.ENCODED_SECRET_GPG_KEY }}
-        SIGNING_KEYID: ${{ secrets.OSSRH_USER }}
-        OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        SIGNING_KEYID: ${{ secrets.SIGNING_KEYID }}
+        SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         AUDITOR_VERSION: 0.2.1
         
     - name: Build with Gradle
