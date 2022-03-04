@@ -25,8 +25,8 @@ jobs:
       
     - name: Decode and save GPG Secret File from secrets
       run: |
-        echo $SECRETS_GPG_KEY >> src/.env 
-        cat src/.env
+        echo $SECRETS_GPG_KEY >> .env 
+        cat .env
       env:
         SECRETS_GPG_KEY: ${{ secrets.NEW_SECRET }}
         SAMPLE_ENV: value
