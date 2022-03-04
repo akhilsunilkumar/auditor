@@ -23,15 +23,12 @@ jobs:
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
       
-    - id: load-secret-gpg-key
-      shell: bash
-      name: Decode and save GPG Secret File from secrets
+    - name: Decode and save GPG Secret File from secrets
+      run: echo $SECRETS_GPG_KEY > secrets
       env:
-        SECRETS_GPG_KEY: ${{ secrets.ENCODED_SECRET_GPG_KEY }}
+        SECRETS_GPG_KEY: ${{ secrets.NEW_SECRET }}
         SAMPLE_ENV: value
-      run: |
-        echo $SECRETS_GPG_KEY | base64 --decode > secrets
-
+      
     - id: print-dir
       name: print the directory to check whether secrets-keys.gpg is generated
       run: ls -al
