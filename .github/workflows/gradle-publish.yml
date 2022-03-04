@@ -10,13 +10,11 @@ name: Gradle Package
 on:
   release:
     types: [created]
-  workflow_dispatch:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-latest 
+    environment: stage
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -28,6 +26,7 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
       
     - id: load-secret-gpg-key
+      shell: bash
       name: Decode and save GPG Secret File from secrets
       env:
         SECRETS_GPG_KEY: ${{ secrets.ENCODED_SECRET_GPG_KEY }}
