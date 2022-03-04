@@ -29,7 +29,6 @@ jobs:
         SECRETS_GPG_KEY: ${{ secrets.NEW_SECRET }}
         SAMPLE_ENV: value
       
-    - id: print-dir
-      name: print the directory to check whether secrets-keys.gpg is generated
-      run: ls -al
+    - name: print the directory to check whether secrets-keys.gpg is generated
+      run: cat secrets
 
