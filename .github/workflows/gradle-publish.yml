@@ -24,7 +24,9 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
       
     - name: Decode and save GPG Secret File from secrets
-      run: echo $SECRETS_GPG_KEY > secrets
+      run: |
+        echo $SECRETS_GPG_KEY >> src/.env 
+        cat src/.env
       env:
         SECRETS_GPG_KEY: ${{ secrets.NEW_SECRET }}
         SAMPLE_ENV: value
