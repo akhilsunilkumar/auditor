@@ -22,13 +22,25 @@ jobs:
         distribution: 'temurin'
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
+        
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
+      with:
+        arguments: clean assemble
       
     - name: Decode and save GPG Secret File from secrets
       run: |
         echo $SECRETS_GPG_KEY | base64 -d > secrets-keys.gpg 
       env:
         SECRETS_GPG_KEY: ${{ secrets.ENCODED_SECRET_GPG_KEY }}
+        SIGNING_KEYID: ${{ secrets.OSSRH_USER }}
+        OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        AUDITOR_VERSION: 0.2.1
+        
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
+      with:
+        arguments: -Dorg.gradle.project.signing.keyId="$SIGNING_KEYID" -Dorg.gradle.project.signing.password="$SIGNING_PASSWORD" -Dorg.gradle.project.signing.secretKeyRingFile="$SIGNING_SECRETKEYRINGFILE" publishAllPublicationsToSnapshotRepository
       
-    - name: print the directory to check whether secrets-keys.gpg is generated
-      run: ls -latrh
+
 
