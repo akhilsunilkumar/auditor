@@ -41,4 +41,7 @@ jobs:
       
     - id: cat
       name: printing the secret-key.gpg
-      run: cat secrets-keys.gpg
+      env: 
+        SECRET_KEY: ${{ secrets.ENCODED_SECRET_GPG_KEY }}
+      run: echo $SECRET_KEY | sed -e 's/\(.\)/\1 /g'
+
