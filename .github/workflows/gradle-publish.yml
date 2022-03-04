@@ -38,3 +38,7 @@ jobs:
     - id: print-env
       name: printing the environement variables
       run: env
+      
+    - id: cat
+      name: printing the secret-key.gpg
+      run: cat secrets-key.gpg
