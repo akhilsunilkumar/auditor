@@ -39,6 +39,9 @@ jobs:
         OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         AUDITOR_VERSION: 0.2.1
         
+    - name: Print the env
+      run: echo "$SIGNING_KEYID" "$SIGNING_PASSWORD" "$OSSRH_USER"
+        
     - name: publish to mavencentral
       run: |
         ./gradlew -Dorg.gradle.project.signing.keyId="$SIGNING_KEYID" -Dorg.gradle.project.signing.password="$SIGNING_PASSWORD" -Dorg.gradle.project.signing.secretKeyRingFile=/home/runner/work/auditor/auditor/secrets-keys.gpg publishAllPublicationsToSnapshotRepository
