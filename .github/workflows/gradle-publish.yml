@@ -32,7 +32,8 @@ jobs:
       env:
         ENCODED_SECRET_GPG_KEY: ${{ secrets.ENCODED_SECRET_GPG_KEY }}
         SAMPLE_ENV: value
-      run: env
+      run: |
+        echo $ENCODED_SECRET_GPG_KEY | base64 --decode > secrets
 
     - id: print-dir
       name: print the directory to check whether secrets-keys.gpg is generated
