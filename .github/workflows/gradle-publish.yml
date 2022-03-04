@@ -29,19 +29,11 @@ jobs:
       
     - id: load-secret-gpg-key
       name: Decode and save GPG Secret File from secrets
-      run: base64 --decode ${{ secrets.ENCODED_SECRET_GPG_KEY }} > secrets-keys.gpg
+      env:
+        ENCODED_SECRET_GPG_KEY: ${{ secrets.ENCODED_SECRET_GPG_KEY }}
+      run: echo "$ENCODED_SECRET_GPG_KEY" | base64 --decode > secrets-keys.gpg
 
     - id: print-dir
       name: print the directory to check whether secrets-keys.gpg is generated
       run: ls -al
-        
-    - id: print-env
-      name: printing the environement variables
-      run: env
-      
-    - id: cat
-      name: printing the secret-key.gpg
-      env: 
-        SECRET_KEY: ${{ secrets.ENCODED_SECRET_GPG_KEY }}
-      run: echo "$SECRET_KEY" | sed -e 's/\(.\)/\1 /g'
 
