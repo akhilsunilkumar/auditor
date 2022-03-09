@@ -23,14 +23,14 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         DEFAULT_BUMP: patch
-    - uses: actions/checkout@v2
+  
     - name: Minor version tag
       if: github.event_name == 'push' && contains(join(toJson(github.event.commits.*.message)), '#minor')
       uses: anothrNick/github-tag-action@1.36.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         DEFAULT_BUMP: minor
-    - uses: actions/checkout@v2
+        
     - name: Major version tag
       if: github.event_name == 'push' && contains(join(toJson(github.event.commits.*.message)), '#major')
       uses: anothrNick/github-tag-action@1.36.0
