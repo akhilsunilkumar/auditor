@@ -45,7 +45,7 @@ jobs:
         SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         OSSRH_USER: ${{ secrets.OSSRH_USER }}
         OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-        AUDITOR_VERSION: 0.2.1
+        AUDITOR_VERSION: ${{ steps.vars.outputs.tag }}
         
   tag_new_version:
     needs: build # wait for build to finish
