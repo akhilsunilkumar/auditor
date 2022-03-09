@@ -45,6 +45,32 @@ jobs:
         OSSRH_USER: ${{ secrets.OSSRH_USER }}
         OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         AUDITOR_VERSION: 0.2.1
+        
+  tag_new_version:
+    needs: build # wait for build to finish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Patch version tag
+        if: github.event_name == 'push' && contains(join(toJson(github.event.commits.*.message)), '#patch')
+        uses: anothrNick/github-tag-action@1.34.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+      - uses: actions/checkout@v2
+      - name: Minor version tag
+        if: github.event_name == 'push' && contains(join(toJson(github.event.commits.*.message)), '#minor')
+        uses: anothrNick/github-tag-action@1.34.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: minor
+      - uses: actions/checkout@v2
+      - name: Major version tag
+        if: github.event_name == 'push' && contains(join(toJson(github.event.commits.*.message)), '#major')
+        uses: anothrNick/github-tag-action@1.34.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: major
       
 
 
