@@ -29,7 +29,7 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
         
     - name: Assemble binaries on tags
-      if: github.ref == 'refs/heads/main'
+      if: ${{ github.ref == 'refs/heads/main' && github.event.ref_type == 'tag' }}
       uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
       with:
         arguments: clean assemble
