@@ -100,8 +100,7 @@ subprojects {
     // detekt
     detekt {
         buildUponDefaultConfig = true // preconfigure defaults
-        config =
-            files("$rootDir/gradle/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+        config = files("$rootDir/gradle/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
     }
 
     tasks {
@@ -154,28 +153,10 @@ subprojects {
                         }
                         developers {
                             developer {
-                                id.set("akhilsunilkumar")
-                                name.set("Akhil Sunil Kumar")
+                                id.set("lowesoss")
+                                name.set("Lowe's Home Improvement")
                                 organization.set("Lowe's")
-                                organizationUrl.set("https://lowes.com")
-                            }
-                            developer {
-                                id.set("ankur4u007")
-                                name.set("Deepankar Singh")
-                                organization.set("Lowe's")
-                                organizationUrl.set("https://lowes.com")
-                            }
-                            developer {
-                                id.set("spoorthinb1")
-                                name.set("Spoorthi Bellaki")
-                                organization.set("Lowe's")
-                                organizationUrl.set("https://lowes.com")
-                            }
-                            developer {
-                                id.set("vasanthm7")
-                                name.set("Vasanth Manikandan")
-                                organization.set("Lowe's")
-                                organizationUrl.set("https://lowes.com")
+                                organizationUrl.set("https://www.lowes.com")
                             }
                         }
                         scm {
