@@ -28,29 +28,24 @@ jobs:
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
         
-    - name: Build Skipping Tests with Gradle
+    - name: Assemble binaries on tags
       if: github.ref == 'refs/heads/main'
       uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
       with:
         arguments: clean assemble
         
-    - name: Build with Gradle
+    - name: Build on Pull requests or merges
       if: ${{ github.event_name == 'pull_request' || github.event.pull_request.merged == 'true' }}
       uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
       with:
         arguments: clean build
-      
-    - name: Decode and save GPG Secret File from secrets
-      run: |
-        echo $SECRETS_GPG_KEY | base64 -d > secrets-keys.gpg 
-      env:
-        SECRETS_GPG_KEY: ${{ secrets.ENCODED_SECRET_GPG_KEY }}
-      
-    - name: publish to mavencentral
+
+    - name: Publish to MavenCentral
       if: ${{ github.ref == 'refs/heads/main' && github.event.ref_type == 'tag' }}
       run: |
         echo ::set-output name=tag::${GITHUB_REF#refs/*/}
         echo ${{ steps.vars.outputs.tag }}
+        echo $SECRETS_GPG_KEY | base64 -d > secrets-keys.gpg 
         ./gradlew -Dorg.gradle.project.signing.keyId=$SIGNING_KEYID -Dorg.gradle.project.signing.password=$SIGNING_PASSWORD -Dorg.gradle.project.signing.secretKeyRingFile=/home/runner/work/auditor/auditor/secrets-keys.gpg publishAllPublicationsToSnapshotRepository
       env: 
         SIGNING_KEYID: ${{ secrets.SIGNING_KEYID }}
@@ -58,4 +53,5 @@ jobs:
         OSSRH_USER: ${{ secrets.OSSRH_USER }}
         OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         AUDITOR_VERSION: ${{ steps.tag.outputs.new_tag }}
+        SECRETS_GPG_KEY: ${{ secrets.ENCODED_SECRET_GPG_KEY }}
  
