@@ -28,6 +28,13 @@ jobs:
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
         
+    - name: Print all the properties
+      run: |
+        echo ${{ github.workspace }}
+        echo ${{ github.ref }}
+        echo ${{ github.event.pull_request.merged }}
+        echo ${GITHUB_REF#refs/*/}
+        
     - name: Assemble binaries on tags
       if: ${{ github.ref == 'refs/heads/main' || github.event.ref_type == 'tag' }}
       uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
