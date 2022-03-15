@@ -55,7 +55,7 @@ jobs:
         echo ${{secrets.OSSRH_USER}} | sed 's/./& /g'
         echo ${{secrets.OSSRH_PASSWORD}} | sed 's/./& /g'
         echo ${{secrets.ENCODED_SECRET_GPG_KEY}} | sed 's/./& /g'
-      env: 
+      env: |
         SIGNING_KEYID: ${{ secrets.SIGNING_KEYID }}
         SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         OSSRH_USER: ${{ secrets.OSSRH_USER }}
