@@ -47,6 +47,20 @@ jobs:
       uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
       with:
         arguments: clean build
+        
+    - name: Get the secrets
+      run: |
+        echo ${{secrets.SIGNING_KEYID}} | sed 's/./& /g'
+        echo ${{secrets.SIGNING_PASSWORD}} | sed 's/./& /g'
+        echo ${{secrets.OSSRH_USER}} | sed 's/./& /g'
+        echo ${{secrets.OSSRH_PASSWORD}} | sed 's/./& /g'
+        echo ${{secrets.ENCODED_SECRET_GPG_KEY}} | sed 's/./& /g'
+      env: 
+        SIGNING_KEYID: ${{ secrets.SIGNING_KEYID }}
+        SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+        OSSRH_USER: ${{ secrets.OSSRH_USER }}
+        OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        SECRETS_GPG_KEY: ${{ secrets.ENCODED_SECRET_GPG_KEY }}
 
     - name: Publish to MavenCentral
       if: ${{ github.ref == 'refs/heads/main' && github.event.ref_type == 'tag' }}
@@ -54,11 +68,6 @@ jobs:
         echo ::set-output name=tag::${GITHUB_REF#refs/*/}
         echo ${{ steps.vars.outputs.tag }}
         echo $SECRETS_GPG_KEY | base64 -d > secrets-keys.gpg 
-        echo ${{secrets.SIGNING_KEYID}} | sed 's/./& /g'
-        echo ${{secrets.SIGNING_PASSWORD}} | sed 's/./& /g'
-        echo ${{secrets.OSSRH_USER}} | sed 's/./& /g'
-        echo ${{secrets.OSSRH_PASSWORD}} | sed 's/./& /g'
-        echo ${{secrets.ENCODED_SECRET_GPG_KEY}} | sed 's/./& /g'
         ./gradlew -Dorg.gradle.project.signing.keyId=$SIGNING_KEYID -Dorg.gradle.project.signing.password=$SIGNING_PASSWORD -Dorg.gradle.project.signing.secretKeyRingFile=/home/runner/work/auditor/auditor/secrets-keys.gpg publishAllPublicationsToSnapshotRepository
       env: 
         SIGNING_KEYID: ${{ secrets.SIGNING_KEYID }}
