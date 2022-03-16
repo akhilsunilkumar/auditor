@@ -54,6 +54,7 @@ jobs:
       run: |
         echo ::set-output name=tag::${GITHUB_REF#refs/*/}
         echo ${{ steps.vars.outputs.tag }}
+        export AUDITOR_VERSION=${{ steps.vars.outputs.tag }}
         echo $SECRETS_GPG_KEY | base64 -d > secrets-keys.gpg 
         ./gradlew -Dorg.gradle.project.signing.keyId=$SIGNING_KEYID -Dorg.gradle.project.signing.password=$SIGNING_PASSWORD -Dorg.gradle.project.signing.secretKeyRingFile=/home/runner/work/auditor/auditor/secrets-keys.gpg publishAllPublicationsToSnapshotRepository
       env: 
